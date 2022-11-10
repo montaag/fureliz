@@ -1,0 +1,4 @@
+enum Lecture {
+  MATEMATIK,
+  TURKCE,
+}
