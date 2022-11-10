@@ -3,25 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
+import 'package:yeliz/models/reward.dart';
 import 'package:yeliz/widgets/custom_button.dart';
 import 'package:yeliz/widgets/shop_item.dart';
-
-class Reward {
-  final String title;
-  final int amount;
-  final IconData icon;
-  bool isSelected;
-  Reward({
-    required this.title,
-    required this.amount,
-    required this.icon,
-    this.isSelected = false,
-  });
-}
 
 class Shop extends StatefulWidget {
   const Shop({Key? key}) : super(key: key);
@@ -44,50 +34,36 @@ class _ShopState extends State<Shop> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 20),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       Icon(
-        //         FontAwesomeIcons.solidStar,
-        //         color: Colors.amber,
-        //       ),
-        //       Text(
-        //         "Hedeflerini tuttur, yıldızları topla",
-        //         style: CustomTheme.subtitle(context),
-        //       ),
-        //       Icon(
-        //         FontAwesomeIcons.solidStar,
-        //         color: Colors.amber,
-        //       ),
-        //     ],
-        //   ),
-        // ),
         SizedBox(height: 10),
         toplamYildiz(context),
         SizedBox(height: 20),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GridView.count(
-              shrinkWrap: false,
-              crossAxisCount: 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              children: shopItems
-                  .map((e) => ShopItem(
-                        reward: e,
-                        onTap: () {
-                          setState(() {
-                            araToplam = araToplam + e.amount;
-                          });
-                          print(araToplam);
-                        },
-                      ))
-                  .toList(),
-            ),
-          ),
+        BlocBuilder<BasketBloc, BasketState>(
+          builder: (context, state) {
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.count(
+                  shrinkWrap: false,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  children: shopItems
+                      .map((e) => ShopItem(
+                            reward: e,
+                            onTap: () {
+                              setState(() {
+                                e.isSelected = !e.isSelected;
+                              });
+                              e.isSelected
+                                  ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
+                                  : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
+                            },
+                          ))
+                      .toList(),
+                ),
+              ),
+            );
+          },
         ),
         Spacer(),
         Padding(
@@ -107,7 +83,7 @@ class _ShopState extends State<Shop> {
                   Row(
                     children: [
                       Text(
-                        araToplam.toString(),
+                        BlocProvider.of<BasketBloc>(context).state.total.toString(),
                         style: CustomTheme.headline6(context),
                       ),
                       SizedBox(
