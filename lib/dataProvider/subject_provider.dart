@@ -30,6 +30,13 @@ class SubjectProvider extends AbstractSubjectProvider {
     Set all = {};
     all.addAll(MATH_SUBJECTS);
     all.addAll(TURKISH_SUBJECTS);
+    all.addAll(BIO_SUBJECTS);
+    all.addAll(CHEM_SUBJECTS);
+
+    all.addAll(PHYS_SUBJECTS);
+
+    all.addAll(HISTORY_SUBJECTS);
+
     return all;
   }
 
@@ -43,7 +50,6 @@ class SubjectProvider extends AbstractSubjectProvider {
         return BIO_SUBJECTS;
       case Lecture.KIMYA:
         return CHEM_SUBJECTS;
-
       case Lecture.FIZIK:
         return PHYS_SUBJECTS;
       case Lecture.SOSYAL:

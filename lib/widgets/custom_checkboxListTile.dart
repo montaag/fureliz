@@ -41,7 +41,11 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
                 return Expanded(
                   child: ListTile(
                     title: Text(
-                      widget.goal.subjectID == null ? widget.goal.lecture : SubjectProvider().getSubject(widget.goal.subjectID)!.name.toString(),
+                      widget.goal.subjectID == null
+                          ? widget.goal.lecture
+                          : SubjectProvider().getSubject(widget.goal.subjectID) == null
+                              ? ""
+                              : SubjectProvider().getSubject(widget.goal.subjectID)!.name.toString(),
                       style: CustomTheme.headline6(context),
                     ),
                     subtitle: Text(

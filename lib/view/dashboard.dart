@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:yeliz/blocs/bloc/goal_bloc.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
@@ -145,9 +146,26 @@ class Dashboard extends StatelessWidget {
                         )
                       : Column(
                           children: state.dailyGoals
-                              .map((e) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: CustomCheckBoxListTile(goal: e),
+                              .map((e) => Slidable(
+                                    key: ValueKey(state.dailyGoals.indexOf(e)),
+                                    endActionPane: ActionPane(
+                                      motion: ScrollMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          flex: 2,
+                                          onPressed: (context) {},
+                                          backgroundColor: Palette.dangerColor,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Sil',
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      child: CustomCheckBoxListTile(goal: e),
+                                    ),
                                   ))
                               .toList(),
                         );
