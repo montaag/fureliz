@@ -35,10 +35,17 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
+  objectbox: ^1.6.2
+  objectbox_flutter_libs: ^1.6.2
+  path_provider: ^2.0.11
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.0
+  build_runner: ^2.2.0
+  objectbox_generator: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,25 +1,31 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:yeliz/models/classes.dart';
 
 import 'package:yeliz/models/subject.dart';
 
-enum StudyType { KONU_ANLATIMI, SORU_COZUMU }
-
+@Entity()
 class Goal extends Equatable {
+  late int id;
   final DateTime day;
-  StudyType studyType;
+  final String studyType; //KONU_ANLATIMI OR SORU_COZUMU
   final int? amount;
-  final Subject subject;
+  final int? subjectID;
+  final String lecture;
+
   bool isAchieved;
 
   Goal({
+    this.id = 0,
     required this.day,
     required this.studyType,
     this.amount,
-    required this.subject,
+    this.subjectID,
     required this.isAchieved,
+    required this.lecture,
   });
 
   @override
-  List<Object?> get props => [day, amount, subject, isAchieved, studyType];
+  List<Object?> get props => [day, amount, subjectID, isAchieved, studyType];
 }

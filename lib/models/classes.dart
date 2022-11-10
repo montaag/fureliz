@@ -1,4 +1,1 @@
-enum Lecture {
-  MATEMATIK,
-  TURKCE,
-}
+enum Lecture { MATEMATIK, TURKCE, FIZIK, KIMYA, BIYOLOJI, SOSYAL }

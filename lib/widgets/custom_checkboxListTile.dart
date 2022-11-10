@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yeliz/blocs/bloc/goal_bloc.dart';
+import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
+import 'package:yeliz/dataProvider/subject_provider.dart';
 import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
 
@@ -23,23 +27,33 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
       height: 60.h,
       decoration: BoxDecoration(
         // color: Palette.primaryColor.withOpacity(0.08),
-        color: widget.goal.subject.examType == ExamType.TYT ? Palette.blue.withOpacity(0.3) : Palette.purple.withOpacity(0.3),
+        color: SubjectProvider().getSubject(widget.goal.subjectID) == null
+            ? Palette.primaryColor.withOpacity(0.3)
+            : (SubjectProvider().getSubject(widget.goal.subjectID)!.examType == ExamType.TYT ? Palette.blue.withOpacity(0.3) : Palette.purple.withOpacity(0.3)),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: ListTile(
-              title: Text(
-                widget.goal.subject.name,
-                style: CustomTheme.headline6(context),
-              ),
-              subtitle: Text(
-                widget.goal.amount.toString() + (widget.goal.studyType == StudyType.KONU_ANLATIMI ? " sayfa" : "soru"),
-                style: CustomTheme.subtitle(context, color: Palette.grayColor),
-              ),
-            ),
+          BlocBuilder<GoalBloc, GoalState>(
+            builder: (context, state) {
+              if (state is GoalInitial) {
+                return Expanded(
+                  child: ListTile(
+                    title: Text(
+                      widget.goal.subjectID == null ? widget.goal.lecture : SubjectProvider().getSubject(widget.goal.subjectID)!.name.toString(),
+                      style: CustomTheme.headline6(context),
+                    ),
+                    subtitle: Text(
+                      widget.goal.amount.toString() + (widget.goal.studyType == Constants.KONU_ANLATIMI ? " sayfa" : " soru"),
+                      style: CustomTheme.subtitle(context, color: Palette.grayColor),
+                    ),
+                  ),
+                );
+              } else {
+                return SizedBox();
+              }
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(right: 10),

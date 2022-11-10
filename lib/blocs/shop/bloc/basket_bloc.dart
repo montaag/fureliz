@@ -8,7 +8,6 @@ part 'basket_state.dart';
 class BasketBloc extends Bloc<BasketEvent, BasketState> {
   BasketBloc() : super(BasketInitial(0)) {
     on<AddToBasket>((event, emit) {
-      print("state" + state.total.toString());
       emit(BasketInitial(state.total + event.reward.amount));
     });
     on<RemoveFromBasket>((event, emit) {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yeliz/blocs/bloc/goal_bloc.dart';
+import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
 import 'package:yeliz/models/classes.dart';
@@ -15,22 +18,7 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List dersler = [Lecture.MATEMATIK, Lecture.TURKCE];
-
-    List goals = [
-      Goal(
-          day: DateTime.now(),
-          studyType: StudyType.KONU_ANLATIMI,
-          subject: Subject(lecture: Lecture.MATEMATIK, examType: ExamType.AYT, name: "konu 1", isStudied: false),
-          isAchieved: false,
-          amount: 1),
-      Goal(
-          day: DateTime.now(),
-          studyType: StudyType.SORU_COZUMU,
-          subject: Subject(lecture: Lecture.TURKCE, examType: ExamType.TYT, name: "konu 2", isStudied: false),
-          isAchieved: false,
-          amount: 2),
-    ];
+    List dersler = [Lecture.MATEMATIK, Lecture.TURKCE]; //TODO: DELETE THIS
 
     return SafeArea(
       child: Padding(
@@ -117,7 +105,7 @@ class Dashboard extends StatelessWidget {
                             builder: ((context) {
                               return AlertDialog(
                                 title: Text("Günlük Hedefim"),
-                                content: AlertDialogContetns(dersler: dersler),
+                                content: AlertDialogContetns(),
                               );
                             }));
                       },
@@ -125,42 +113,48 @@ class Dashboard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              goals.isEmpty
-                  ? Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            "Bugünlük hedefini henüz belirlemedin",
-                            style: CustomTheme.headline6(context),
-                            textAlign: TextAlign.center,
+              BlocBuilder<GoalBloc, GoalState>(builder: (context, state) {
+                if (state is GoalInitial) {
+                  return state.dailyGoals.isEmpty
+                      ? Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Bugünlük hedefini henüz belirlemedin",
+                                style: CustomTheme.headline6(context),
+                                textAlign: TextAlign.center,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                child: CustomButton(
+                                    text: "Hadi hedef belirle",
+                                    customButtonType: CustomButtonType.primary,
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: ((context) {
+                                            return AlertDialog(
+                                              title: Text("Günlük Hedefim"),
+                                              content: AlertDialogContetns(),
+                                            );
+                                          }));
+                                    }),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            child: CustomButton(
-                                text: "Hadi hedef belirle",
-                                customButtonType: CustomButtonType.primary,
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: ((context) {
-                                        return AlertDialog(
-                                          title: Text("Günlük Hedefim"),
-                                          content: AlertDialogContetns(dersler: dersler),
-                                        );
-                                      }));
-                                }),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Column(
-                      children: goals
-                          .map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: CustomCheckBoxListTile(goal: e),
-                              ))
-                          .toList(),
-                    ),
+                        )
+                      : Column(
+                          children: state.dailyGoals
+                              .map((e) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: CustomCheckBoxListTile(goal: e),
+                                  ))
+                              .toList(),
+                        );
+                }
+
+                return SizedBox();
+              }),
             ],
           ),
         ),

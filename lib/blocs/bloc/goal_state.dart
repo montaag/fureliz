@@ -6,9 +6,8 @@ abstract class GoalState extends Equatable {}
 
 class GoalInitial extends GoalState {
   final List<Goal> dailyGoals;
-  GoalInitial({
-    required this.dailyGoals,
-  });
+
+  GoalInitial({required this.dailyGoals});
 
   @override
   List<Object?> get props => [dailyGoals];
