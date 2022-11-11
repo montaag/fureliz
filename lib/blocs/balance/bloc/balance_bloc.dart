@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/settingsProvider.dart';
 import 'package:yeliz/dataProvider/subject_provider.dart';
+import 'package:yeliz/models/classes.dart';
 import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
 
@@ -31,7 +32,31 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   }
 
   double goalToStar(Goal goal) {
-    // Subject subject = SubjectProvider().getSubject(goal.subjectID)!;
+    Subject subject = SubjectProvider().getSubject(goal.subjectID)!;
+    ExamType examType = subject.examType;
+    Lecture lecture = subject.lecture;
+    double katSayi = 1;
+
+    if (examType == ExamType.AYT) {
+      katSayi = 3;
+    } else {
+      switch (lecture) {
+        case Lecture.MATEMATIK:
+          break;
+        case Lecture.BIYOLOJI:
+          break;
+        case Lecture.KIMYA:
+          break;
+        case Lecture.FIZIK:
+          break;
+        case Lecture.TURKCE:
+          break;
+        case Lecture.SOSYAL:
+          break;
+        default:
+      }
+    }
+
     String type = goal.studyType;
     double star = 0;
     if (type == Constants.KONU_ANLATIMI) {
@@ -49,6 +74,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
         star = 50;
       }
     } else {
+      //SORU ÇÖZÜMÜ
       if (goal.amount! <= 3.0)
         star = 3;
       else if (goal.amount!.isBetween(4, 10)) {
