@@ -12,7 +12,7 @@ part 'balance_state.dart';
 
 class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   final SettingsProvider settingsProvider;
-  BalanceBloc(this.settingsProvider) : super(BalanceInitial(balance: 0)) {
+  BalanceBloc(this.settingsProvider) : super(BalanceInitial(balance: 0.0)) {
     on<EarnBalance>((event, emit) async {
       double earnedStar = goalToStar(event.goal);
       double oldBalance = settingsProvider.getBalance();
@@ -23,7 +23,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     on<SpendBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
       if (event.spendAmount > oldBalance) {
-        emit(PurchaseFailed("Bakiyen yetersiz"));
+        emit(PurchaseFailed("Bakiyen yetersiz", oldBalance));
       } else {
         await settingsProvider.setBalance(oldBalance - event.spendAmount);
         emit(BalanceInitial(balance: settingsProvider.getBalance()));

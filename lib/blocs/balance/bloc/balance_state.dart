@@ -2,17 +2,15 @@
 part of 'balance_bloc.dart';
 
 abstract class BalanceState extends Equatable {
-  const BalanceState();
+  final double balance;
+  const BalanceState(this.balance);
 
   @override
   List<Object> get props => [];
 }
 
 class BalanceInitial extends BalanceState {
-  final double balance;
-  BalanceInitial({
-    required this.balance,
-  });
+  BalanceInitial({required balance}) : super(balance);
   @override
   List<Object> get props => [balance];
 }
@@ -20,5 +18,5 @@ class BalanceInitial extends BalanceState {
 class PurchaseFailed extends BalanceState {
   final String errorMessage;
 
-  PurchaseFailed(this.errorMessage);
+  PurchaseFailed(this.errorMessage, balance) : super(balance);
 }

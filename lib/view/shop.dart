@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 
 import 'package:yeliz/config/palette.dart';
@@ -21,7 +22,7 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
-  int araToplam = 0;
+  double araToplam = 0;
   List<Reward> shopItems = [
     Reward(title: "İskender Döner", amount: 10, icon: FontAwesomeIcons.bowlFood),
     Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
@@ -110,42 +111,46 @@ class _ShopState extends State<Shop> {
     );
   }
 
-  Padding toplamYildiz(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget toplamYildiz(BuildContext context) {
+    return BlocBuilder<BalanceBloc, BalanceState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Toplanılan Yıldız",
-                style: CustomTheme.subtitle(context),
-              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "50",
-                    style: CustomTheme.headline6(context),
+                    "Toplanılan Yıldız",
+                    style: CustomTheme.subtitle(context),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Colors.amber,
+                  Row(
+                    children: [
+                      Text(
+                        state.balance.toString(),
+                        style: CustomTheme.headline6(context),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        FontAwesomeIcons.solidStar,
+                        color: Colors.amber,
+                      ),
+                    ],
                   ),
                 ],
               ),
+              Text(
+                "ablan sana gurban olsun",
+                style: CustomTheme.body(context, color: Palette.primaryColor),
+              ),
             ],
           ),
-          Text(
-            "ablan sana gurban olsun",
-            style: CustomTheme.body(context, color: Palette.primaryColor),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
