@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'; // generated code can access "internal
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'models/balance.dart';
 import 'models/goal.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -62,6 +63,30 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(2, 5071725802063829537),
+      name: 'Balance',
+      lastPropertyId: const IdUid(4, 4523739771003017917),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 4295230154017521657),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(3, 1914322203483712368),
+            name: 'earnedBalance',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 4523739771003017917),
+            name: 'date',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -85,13 +110,13 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 6017257863110588144),
+      lastEntityId: const IdUid(2, 5071725802063829537),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [8202684997176013464],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -140,6 +165,35 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 16, ''));
 
           return object;
+        }),
+    Balance: EntityDefinition<Balance>(
+        model: _entities[1],
+        toOneRelations: (Balance object) => [],
+        toManyRelations: (Balance object) => {},
+        getId: (Balance object) => object.id,
+        setId: (Balance object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Balance object, fb.Builder fbb) {
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addFloat64(2, object.earnedBalance);
+          fbb.addInt64(3, object.date.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Balance(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              earnedBalance:
+                  const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0),
+              date: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0)));
+
+          return object;
         })
   };
 
@@ -171,4 +225,17 @@ class Goal_ {
 
   /// see [Goal.lecture]
   static final lecture = QueryStringProperty<Goal>(_entities[0].properties[6]);
+}
+
+/// [Balance] entity fields to define ObjectBox queries.
+class Balance_ {
+  /// see [Balance.id]
+  static final id = QueryIntegerProperty<Balance>(_entities[1].properties[0]);
+
+  /// see [Balance.earnedBalance]
+  static final earnedBalance =
+      QueryDoubleProperty<Balance>(_entities[1].properties[1]);
+
+  /// see [Balance.date]
+  static final date = QueryIntegerProperty<Balance>(_entities[1].properties[2]);
 }

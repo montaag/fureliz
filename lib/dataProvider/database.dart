@@ -1,5 +1,6 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:yeliz/dataProvider/database_interface.dart';
+import 'package:yeliz/models/balance.dart';
 import 'package:yeliz/objectbox.g.dart';
 
 import 'package:yeliz/models/goal.dart';
@@ -46,6 +47,6 @@ class Database extends DatabaseProvider {
 
   @override
   void deleteGoal(int id) {
-    // TODO: implement deleteGoal
+    store.box<Goal>().remove(id);
   }
 }

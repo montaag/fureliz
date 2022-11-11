@@ -46,9 +46,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:5071725802063829537",
+      "lastPropertyId": "4:4523739771003017917",
+      "name": "Balance",
+      "properties": [
+        {
+          "id": "1:4295230154017521657",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:1914322203483712368",
+          "name": "earnedBalance",
+          "type": 8
+        },
+        {
+          "id": "4:4523739771003017917",
+          "name": "date",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:6017257863110588144",
+  "lastEntityId": "2:5071725802063829537",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
@@ -56,7 +80,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    8202684997176013464
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
