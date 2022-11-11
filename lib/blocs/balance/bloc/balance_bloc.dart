@@ -112,3 +112,7 @@ extension Range on num {
     return from <= this && this < to;
   }
 }
+
+String removeDecimalZeroFormat(double n) {
+  return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 1);
+}

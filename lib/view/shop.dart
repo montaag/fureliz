@@ -84,7 +84,7 @@ class _ShopState extends State<Shop> {
                   Row(
                     children: [
                       Text(
-                        BlocProvider.of<BasketBloc>(context).state.total.toString(),
+                        removeDecimalZeroFormat(BlocProvider.of<BasketBloc>(context).state.total),
                         style: CustomTheme.headline6(context),
                       ),
                       SizedBox(
@@ -129,7 +129,7 @@ class _ShopState extends State<Shop> {
                   Row(
                     children: [
                       Text(
-                        state.balance.toString(),
+                        removeDecimalZeroFormat(state.balance),
                         style: CustomTheme.headline6(context),
                       ),
                       SizedBox(

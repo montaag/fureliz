@@ -1,7 +1,7 @@
 part of 'basket_bloc.dart';
 
 abstract class BasketState extends Equatable {
-  final int total;
+  final double total;
   const BasketState(this.total);
 
   @override
@@ -9,7 +9,7 @@ abstract class BasketState extends Equatable {
 }
 
 class BasketInitial extends BasketState {
-  BasketInitial(int total) : super(total);
+  BasketInitial(double total) : super(total);
 
   @override
   List<Object> get props => [total];
