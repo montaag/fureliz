@@ -11,12 +11,16 @@ class EarnBalance extends BalanceEvent {
   final Goal goal;
 
   EarnBalance(this.goal);
+  @override
+  List<Object> get props => [goal];
 }
 
 class SpendBalance extends BalanceEvent {
-  final double spendAmount;
+  final List<RewardModel> rewards;
 
-  SpendBalance(this.spendAmount);
+  SpendBalance(this.rewards);
+  @override
+  List<Object> get props => [rewards];
 }
 
 class GetBalance extends BalanceEvent {}

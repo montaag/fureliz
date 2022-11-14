@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           create: (_) => GoalBloc(data),
         ),
         BlocProvider<BalanceBloc>(
-          create: (_) => BalanceBloc(settings),
+          create: (_) => BalanceBloc(settings, data),
         ),
       ],
       child: ScreenUtilInit(

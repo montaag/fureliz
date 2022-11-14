@@ -47,7 +47,7 @@ class _ShopItemState extends State<ShopItem> {
                           ),
                           SizedBox(width: 3),
                           Text(
-                            widget.reward.amount.toString(),
+                            widget.reward.reward.amount.toString(),
                             style: TextStyle(fontSize: 12, color: Palette.lightGrey),
                           ),
                         ],
@@ -66,7 +66,7 @@ class _ShopItemState extends State<ShopItem> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
-                      widget.reward.title,
+                      widget.reward.reward.title,
                       style: CustomTheme.body(context, color: Colors.black),
                       textAlign: TextAlign.center,
                     ),

@@ -16,6 +16,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'models/balance.dart';
 import 'models/goal.dart';
+import 'models/reward.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -87,6 +88,30 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(3, 4506808099796640891),
+      name: 'RewardModel',
+      lastPropertyId: const IdUid(3, 1220059754896081160),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 102997633503008235),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3390848522108156967),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1220059754896081160),
+            name: 'amount',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -110,7 +135,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 5071725802063829537),
+      lastEntityId: const IdUid(3, 4506808099796640891),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -194,6 +219,36 @@ ModelDefinition getObjectBoxModel() {
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0)));
 
           return object;
+        }),
+    RewardModel: EntityDefinition<RewardModel>(
+        model: _entities[2],
+        toOneRelations: (RewardModel object) => [],
+        toManyRelations: (RewardModel object) => {},
+        getId: (RewardModel object) => object.id,
+        setId: (RewardModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (RewardModel object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addInt64(2, object.amount);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = RewardModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              amount:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+
+          return object;
         })
   };
 
@@ -238,4 +293,19 @@ class Balance_ {
 
   /// see [Balance.date]
   static final date = QueryIntegerProperty<Balance>(_entities[1].properties[2]);
+}
+
+/// [RewardModel] entity fields to define ObjectBox queries.
+class RewardModel_ {
+  /// see [RewardModel.id]
+  static final id =
+      QueryIntegerProperty<RewardModel>(_entities[2].properties[0]);
+
+  /// see [RewardModel.title]
+  static final title =
+      QueryStringProperty<RewardModel>(_entities[2].properties[1]);
+
+  /// see [RewardModel.amount]
+  static final amount =
+      QueryIntegerProperty<RewardModel>(_entities[2].properties[2]);
 }

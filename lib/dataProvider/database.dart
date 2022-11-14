@@ -1,6 +1,7 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:yeliz/dataProvider/database_interface.dart';
 import 'package:yeliz/models/balance.dart';
+import 'package:yeliz/models/reward.dart';
 import 'package:yeliz/objectbox.g.dart';
 
 import 'package:yeliz/models/goal.dart';
@@ -56,5 +57,12 @@ class Database extends DatabaseProvider {
     DateTime today = DateTime(now.year, now.month, now.day);
     List<Goal> goals = store.box<Goal>().query(Goal_.day.equals(today.millisecondsSinceEpoch)).build().find();
     return goals;
+  }
+
+  @override
+  void savePurchasedRewards(List<RewardModel> rewards) {
+    print(rewards);
+    store.box<RewardModel>().putMany(rewards);
+    print(store.box<RewardModel>().getAll().length);
   }
 }

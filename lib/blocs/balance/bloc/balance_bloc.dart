@@ -2,9 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/settingsProvider.dart';
+import 'package:yeliz/dataProvider/database_interface.dart';
 import 'package:yeliz/dataProvider/subject_provider.dart';
 import 'package:yeliz/models/classes.dart';
 import 'package:yeliz/models/goal.dart';
+import 'package:yeliz/models/reward.dart';
 import 'package:yeliz/models/subject.dart';
 import 'package:yeliz/widgets/custom_error.dart';
 
@@ -13,7 +15,8 @@ part 'balance_state.dart';
 
 class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   final SettingsProvider settingsProvider;
-  BalanceBloc(this.settingsProvider) : super(BalanceInitial(balance: 0.0)) {
+  final DatabaseProvider databaseProvider;
+  BalanceBloc(this.settingsProvider, this.databaseProvider) : super(BalanceInitial(balance: 0.0)) {
     on<EarnBalance>((event, emit) async {
       double earnedStar = goalToStar(event.goal);
       double oldBalance = settingsProvider.getBalance();
@@ -23,10 +26,14 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     });
     on<SpendBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
-      if (event.spendAmount > oldBalance) {
+      double spendAmount = rewardToAmount(event.rewards);
+
+      if (spendAmount > oldBalance) {
         emit(PurchaseFailed(CustomExcepiton.now(message: "Bakiyen yetersiz"), oldBalance));
       } else {
-        await settingsProvider.setBalance(oldBalance - event.spendAmount);
+        await settingsProvider.setBalance(oldBalance - spendAmount);
+
+        databaseProvider.savePurchasedRewards(event.rewards);
         emit(BalanceInitial(balance: settingsProvider.getBalance()));
       }
     });
@@ -115,6 +122,14 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
       }
     }
     return star * katSayi;
+  }
+
+  double rewardToAmount(List<RewardModel> rewards) {
+    double amount = 0;
+    for (var element in rewards) {
+      amount = amount + element.amount;
+    }
+    return amount;
   }
 }
 

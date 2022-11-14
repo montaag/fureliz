@@ -4,11 +4,12 @@ import 'package:yeliz/models/reward.dart';
 class RewardProvider {
   static List<Reward> getRewards() {
     List<Reward> rewards = [
-      Reward(title: "İskender Döner", amount: 10, icon: FontAwesomeIcons.bowlFood),
-      Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-      Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-      Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-      Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
+      Reward(reward: RewardModel(title: "İskender Döner", amount: 10), icon: FontAwesomeIcons.bowlFood),
     ];
     return rewards;
   }

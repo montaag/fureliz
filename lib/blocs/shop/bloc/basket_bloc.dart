@@ -9,11 +9,11 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   BasketBloc() : super(BasketInitial(0)) {
     double amount = 0;
     on<AddToBasket>((event, emit) {
-      amount = state.total + event.reward.amount;
+      amount = state.total + event.reward.reward.amount;
       emit(BasketInitial(amount));
     });
     on<RemoveFromBasket>((event, emit) {
-      emit(BasketInitial(state.total - event.reward.amount));
+      emit(BasketInitial(state.total - event.reward.reward.amount));
     });
     on<ResetBasket>((event, emit) {
       emit(BasketInitial(0));

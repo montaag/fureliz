@@ -28,7 +28,7 @@ class Shop extends StatefulWidget {
 class _ShopState extends State<Shop> {
   double araToplam = 0;
   List<Reward> shopItems = RewardProvider.getRewards();
-
+  List<RewardModel> selectedItems = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -71,6 +71,11 @@ class _ShopState extends State<Shop> {
                                       ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
                                       : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
                                 });
+                                if (e.isSelected) {
+                                  selectedItems.add(e.reward);
+                                } else {
+                                  selectedItems.remove(e.reward);
+                                }
                               },
                             ))
                         .toList(),
@@ -127,7 +132,7 @@ class _ShopState extends State<Shop> {
                         if (amount == 0.0) {
                           showCustomSnackBar(context, "Ara toplam 0");
                         } else {
-                          balanceBloc.add(SpendBalance(amount));
+                          balanceBloc.add(SpendBalance(selectedItems));
                           showCustomDialog(
                               context,
                               true,
