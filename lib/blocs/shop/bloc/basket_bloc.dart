@@ -13,5 +13,8 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<RemoveFromBasket>((event, emit) {
       emit(BasketInitial(state.total - event.reward.amount));
     });
+    on<ResetBasket>((event, emit) {
+      emit(BasketInitial(0));
+    });
   }
 }

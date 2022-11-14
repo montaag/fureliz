@@ -35,6 +35,8 @@ class _ShopState extends State<Shop> {
   @override
   Widget build(BuildContext context) {
     final balanceBloc = BlocProvider.of<BalanceBloc>(context);
+    final basketBloc = BlocProvider.of<BasketBloc>(context);
+    //basketBloc.add(ResetBasket());
 
     return BlocListener<BalanceBloc, BalanceState>(
       listener: (context, state) {
@@ -63,10 +65,10 @@ class _ShopState extends State<Shop> {
                               onTap: () {
                                 setState(() {
                                   e.isSelected = !e.isSelected;
+                                  e.isSelected
+                                      ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
+                                      : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
                                 });
-                                e.isSelected
-                                    ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
-                                    : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
                               },
                             ))
                         .toList(),

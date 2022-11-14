@@ -87,9 +87,7 @@ class _ShopItemState extends State<ShopItem> {
                 value: widget.reward.isSelected,
                 shape: CircleBorder(),
                 onChanged: (bool? value) {
-                  setState(() {
-                    widget.reward.isSelected = value!;
-                  });
+                  widget.onTap;
                 },
               ),
             ),

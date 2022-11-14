@@ -21,3 +21,5 @@ class RemoveFromBasket extends BasketEvent {
     required this.reward,
   });
 }
+
+class ResetBasket extends BasketEvent {}
