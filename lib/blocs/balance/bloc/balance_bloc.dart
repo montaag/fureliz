@@ -30,6 +30,10 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
         emit(BalanceInitial(balance: settingsProvider.getBalance()));
       }
     });
+    on<SetBalance>((event, emit) async {
+      await settingsProvider.setBalance(event.amount);
+      emit(BalanceInitial(balance: settingsProvider.getBalance()));
+    });
   }
 
   double goalToStar(Goal goal) {

@@ -20,3 +20,9 @@ class SpendBalance extends BalanceEvent {
 }
 
 class GetBalance extends BalanceEvent {}
+
+class SetBalance extends BalanceEvent {
+  final double amount;
+
+  SetBalance(this.amount);
+}

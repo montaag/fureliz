@@ -10,7 +10,10 @@ import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
+import 'package:yeliz/dataProvider/reward_provider.dart';
 import 'package:yeliz/models/reward.dart';
+import 'package:yeliz/view/main_page.dart';
+import 'package:yeliz/widgets/custom_alert_dialog.dart';
 import 'package:yeliz/widgets/custom_button.dart';
 import 'package:yeliz/widgets/custom_snack_bar.dart';
 import 'package:yeliz/widgets/shop_item.dart';
@@ -24,13 +27,7 @@ class Shop extends StatefulWidget {
 
 class _ShopState extends State<Shop> {
   double araToplam = 0;
-  List<Reward> shopItems = [
-    Reward(title: "İskender Döner", amount: 10, icon: FontAwesomeIcons.bowlFood),
-    Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-    Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-    Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-    Reward(title: "İskender", amount: 10, icon: FontAwesomeIcons.bowlFood),
-  ];
+  List<Reward> shopItems = RewardProvider.getRewards();
 
   @override
   void initState() {
@@ -43,7 +40,6 @@ class _ShopState extends State<Shop> {
     final balanceBloc = BlocProvider.of<BalanceBloc>(context);
     final basketBloc = BlocProvider.of<BasketBloc>(context);
 
-    setState(() {});
     return BlocListener<BalanceBloc, BalanceState>(
       listener: (context, state) {
         if (state is PurchaseFailed) {
@@ -100,9 +96,13 @@ class _ShopState extends State<Shop> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          removeDecimalZeroFormat(BlocProvider.of<BasketBloc>(context).state.total),
-                          style: CustomTheme.headline6(context),
+                        BlocBuilder<BasketBloc, BasketState>(
+                          builder: (context, state) {
+                            return Text(
+                              removeDecimalZeroFormat(state.total),
+                              style: CustomTheme.headline6(context),
+                            );
+                          },
                         ),
                         SizedBox(
                           width: 10,
@@ -128,6 +128,22 @@ class _ShopState extends State<Shop> {
                           showCustomSnackBar(context, "Ara toplam 0");
                         } else {
                           balanceBloc.add(SpendBalance(amount));
+                          showCustomDialog(
+                              context,
+                              true,
+                              CustomAlert(
+                                description: "Ödül toplama başarılı",
+                                type: CustomAlertType.success,
+                                onPressed: () {
+                                  basketBloc.add(ResetBasket());
+                                  Navigator.pop(context);
+                                  for (var element in shopItems) {
+                                    setState(() {
+                                      element.isSelected = false;
+                                    });
+                                  }
+                                },
+                              ));
                         }
                       }),
                 ),
