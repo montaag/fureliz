@@ -15,7 +15,7 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
   final DatabaseProvider databaseProvider;
   GoalBloc(this.databaseProvider)
       : super(GoalInitial(
-          dailyGoals: databaseProvider.listGoals(),
+          dailyGoals: databaseProvider.listDailyGoals(),
         )) {
     on<CreateGoal>((event, emit) {
       databaseProvider.createGoal(

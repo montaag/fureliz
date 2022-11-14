@@ -6,6 +6,7 @@ import 'package:yeliz/dataProvider/subject_provider.dart';
 import 'package:yeliz/models/classes.dart';
 import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
+import 'package:yeliz/widgets/custom_error.dart';
 
 part 'balance_event.dart';
 part 'balance_state.dart';
@@ -23,7 +24,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     on<SpendBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
       if (event.spendAmount > oldBalance) {
-        emit(PurchaseFailed("Bakiyen yetersiz", oldBalance));
+        emit(PurchaseFailed(CustomExcepiton.now(message: "Bakiyen yetersiz"), oldBalance));
       } else {
         await settingsProvider.setBalance(oldBalance - event.spendAmount);
         emit(BalanceInitial(balance: settingsProvider.getBalance()));
@@ -38,20 +39,26 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     double katSayi = 1;
 
     if (examType == ExamType.AYT) {
-      katSayi = 3;
+      katSayi = 2.2;
     } else {
       switch (lecture) {
         case Lecture.MATEMATIK:
+          katSayi = 1.8;
           break;
         case Lecture.BIYOLOJI:
+          katSayi = 1.5;
           break;
         case Lecture.KIMYA:
+          katSayi = 1.5;
           break;
         case Lecture.FIZIK:
+          katSayi = 1.5;
           break;
         case Lecture.TURKCE:
+          katSayi = 1.2;
           break;
         case Lecture.SOSYAL:
+          katSayi = 1;
           break;
         default:
       }
@@ -103,7 +110,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
         star = 400;
       }
     }
-    return star;
+    return star * katSayi;
   }
 }
 

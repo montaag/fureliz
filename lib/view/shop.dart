@@ -12,6 +12,7 @@ import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
 import 'package:yeliz/models/reward.dart';
 import 'package:yeliz/widgets/custom_button.dart';
+import 'package:yeliz/widgets/custom_snack_bar.dart';
 import 'package:yeliz/widgets/shop_item.dart';
 
 class Shop extends StatefulWidget {
@@ -33,81 +34,100 @@ class _ShopState extends State<Shop> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 10),
-        toplamYildiz(context),
-        SizedBox(height: 20),
-        BlocBuilder<BasketBloc, BasketState>(
-          builder: (context, state) {
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.count(
-                  shrinkWrap: false,
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  children: shopItems
-                      .map((e) => ShopItem(
-                            reward: e,
-                            onTap: () {
-                              setState(() {
-                                e.isSelected = !e.isSelected;
-                              });
-                              e.isSelected
-                                  ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
-                                  : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
-                            },
-                          ))
-                      .toList(),
+    final balanceBloc = BlocProvider.of<BalanceBloc>(context);
+
+    return BlocListener<BalanceBloc, BalanceState>(
+      listener: (context, state) {
+        if (state is PurchaseFailed) {
+          showCustomSnackBar(context, state.error.message);
+        }
+      },
+      child: Column(
+        children: [
+          SizedBox(height: 10),
+          toplamYildiz(context),
+          SizedBox(height: 20),
+          BlocBuilder<BasketBloc, BasketState>(
+            builder: (context, state) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: GridView.count(
+                    shrinkWrap: false,
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    children: shopItems
+                        .map((e) => ShopItem(
+                              reward: e,
+                              onTap: () {
+                                setState(() {
+                                  e.isSelected = !e.isSelected;
+                                });
+                                e.isSelected
+                                    ? BlocProvider.of<BasketBloc>(context).add(AddToBasket(reward: e))
+                                    : BlocProvider.of<BasketBloc>(context).add(RemoveFromBasket(reward: e));
+                              },
+                            ))
+                        .toList(),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "Ara Toplam",
-                    style: CustomTheme.subtitle(context),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        removeDecimalZeroFormat(BlocProvider.of<BasketBloc>(context).state.total),
-                        style: CustomTheme.headline6(context),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        FontAwesomeIcons.solidStar,
-                        color: Colors.amber,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Expanded(
-                child: CustomButton(text: "Ödül Topla", customButtonType: CustomButtonType.primary, onPressed: () {}),
-              ),
-            ],
+              );
+            },
           ),
-        ),
-      ],
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Ara Toplam",
+                      style: CustomTheme.subtitle(context),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          removeDecimalZeroFormat(BlocProvider.of<BasketBloc>(context).state.total),
+                          style: CustomTheme.headline6(context),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          FontAwesomeIcons.solidStar,
+                          color: Colors.amber,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Expanded(
+                  child: CustomButton(
+                      text: "Ödül Topla",
+                      customButtonType: CustomButtonType.primary,
+                      onPressed: () {
+                        double amount = BlocProvider.of<BasketBloc>(context).state.total;
+                        if (amount == 0.0) {
+                          showCustomSnackBar(context, "Ara toplam 0");
+                        } else {
+                          balanceBloc.add(SpendBalance(amount));
+                        }
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

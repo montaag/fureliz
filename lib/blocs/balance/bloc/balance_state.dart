@@ -16,7 +16,9 @@ class BalanceInitial extends BalanceState {
 }
 
 class PurchaseFailed extends BalanceState {
-  final String errorMessage;
+  final CustomExcepiton error;
 
-  PurchaseFailed(this.errorMessage, balance) : super(balance);
+  PurchaseFailed(this.error, balance) : super(balance);
+  @override
+  List<Object> get props => [error];
 }

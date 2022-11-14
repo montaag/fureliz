@@ -9,5 +9,6 @@ abstract class DatabaseProvider {
       required String lecture});
 
   List<Goal> listGoals();
+  List<Goal> listDailyGoals();
   void deleteGoal(int id);
 }

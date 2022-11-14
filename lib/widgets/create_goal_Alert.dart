@@ -158,7 +158,7 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
                       showCustomSnackBar(context, "Sayfa/soru gir cnm");
                     } else {
                       BlocProvider.of<GoalBloc>(context).add(CreateGoal(
-                          day: DateTime.now(),
+                          day: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                           studyType: selectedStudyType,
                           amount: amount,
                           lecture: selectedLecture!,

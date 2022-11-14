@@ -49,4 +49,12 @@ class Database extends DatabaseProvider {
   void deleteGoal(int id) {
     store.box<Goal>().remove(id);
   }
+
+  @override
+  List<Goal> listDailyGoals() {
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    List<Goal> goals = store.box<Goal>().query(Goal_.day.equals(today.millisecondsSinceEpoch)).build().find();
+    return goals;
+  }
 }
