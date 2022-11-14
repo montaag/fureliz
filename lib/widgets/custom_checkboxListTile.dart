@@ -23,6 +23,7 @@ class CustomCheckBoxListTile extends StatefulWidget {
 class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
   @override
   Widget build(BuildContext context) {
+    final goalBloc = BlocProvider.of<GoalBloc>(context);
     return Container(
       height: 60.h,
       decoration: BoxDecoration(
@@ -59,22 +60,27 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
               }
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Transform.scale(
-              scale: 1.8,
-              child: Checkbox(
-                checkColor: Palette.successColor,
-                fillColor: MaterialStateProperty.all(Colors.white),
-                value: widget.goal.isAchieved,
-                shape: CircleBorder(),
-                onChanged: (bool? value) {
-                  setState(() {
-                    widget.goal.isAchieved = value!;
-                  });
-                },
-              ),
-            ),
+          BlocBuilder<GoalBloc, GoalState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Transform.scale(
+                  scale: 1.8,
+                  child: Checkbox(
+                    checkColor: Palette.successColor,
+                    fillColor: MaterialStateProperty.all(Colors.white),
+                    value: widget.goal.isAchieved,
+                    shape: CircleBorder(),
+                    onChanged: (bool? value) {
+                      setState(() {
+                        widget.goal.isAchieved = !value!;
+                      });
+                      goalBloc.add(AchieveGoal(goal: widget.goal));
+                    },
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

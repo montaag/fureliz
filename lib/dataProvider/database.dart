@@ -65,4 +65,13 @@ class Database extends DatabaseProvider {
     store.box<RewardModel>().putMany(rewards);
     print(store.box<RewardModel>().getAll().length);
   }
+
+  @override
+  void achieveGoal(Goal goal) {
+    goal.isAchieved = !goal.isAchieved;
+    print(goal.isAchieved);
+    store.box<Goal>().put(goal);
+
+    print(store.box<Goal>().get(goal.id)!.isAchieved);
+  }
 }

@@ -18,8 +18,9 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   final DatabaseProvider databaseProvider;
   BalanceBloc(this.settingsProvider, this.databaseProvider) : super(BalanceInitial(balance: 0.0)) {
     on<EarnBalance>((event, emit) async {
-      double earnedStar = goalToStar(event.goal);
       double oldBalance = settingsProvider.getBalance();
+
+      double earnedStar = listGoalsToStar();
 
       await settingsProvider.setBalance(earnedStar + oldBalance);
       emit(BalanceInitial(balance: oldBalance + earnedStar));
@@ -41,6 +42,17 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
       await settingsProvider.setBalance(event.amount);
       emit(BalanceInitial(balance: settingsProvider.getBalance()));
     });
+  }
+
+  double listGoalsToStar() {
+    double amount = 0.0;
+    List<Goal> goals = databaseProvider.listDailyGoals();
+    for (var element in goals) {
+      if (element.isAchieved) {
+        amount = amount + goalToStar(element);
+      }
+    }
+    return amount;
   }
 
   double goalToStar(Goal goal) {

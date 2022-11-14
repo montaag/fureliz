@@ -27,5 +27,5 @@ class Goal extends Equatable {
   });
 
   @override
-  List<Object?> get props => [day, amount, subjectID, isAchieved, studyType];
+  List<Object?> get props => [day, amount, subjectID, studyType];
 }

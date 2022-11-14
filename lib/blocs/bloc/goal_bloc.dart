@@ -20,7 +20,14 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
     on<CreateGoal>((event, emit) {
       databaseProvider.createGoal(
           day: event.day, studyType: event.studyType, amount: event.amount, subjectID: event.subjectID, lecture: event.lecture.toString().split(".").last);
-      emit(GoalInitial(dailyGoals: databaseProvider.listGoals()));
+      emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));
+    });
+    on<AchieveGoal>((event, emit) {
+      //hem databaseden düzelt hem de tık tık
+
+      databaseProvider.achieveGoal(event.goal);
+
+      emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));
     });
   }
 }
