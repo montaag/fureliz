@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/view/dashboard.dart';
 import 'package:yeliz/view/shop.dart';
@@ -28,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final basketBloc = BlocProvider.of<BasketBloc>(context);
+    basketBloc.add(ResetBasket());
     initializeDateFormatting();
     DateTime now = DateTime.now();
 

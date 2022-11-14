@@ -33,11 +33,17 @@ class _ShopState extends State<Shop> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final balanceBloc = BlocProvider.of<BalanceBloc>(context);
     final basketBloc = BlocProvider.of<BasketBloc>(context);
-    //basketBloc.add(ResetBasket());
 
+    setState(() {});
     return BlocListener<BalanceBloc, BalanceState>(
       listener: (context, state) {
         if (state is PurchaseFailed) {
