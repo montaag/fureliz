@@ -9,9 +9,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/reward/bloc/reward_bloc.dart';
+import 'package:yeliz/blocs/share/bloc/share_bloc.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
 import 'package:yeliz/models/reward.dart';
+import 'package:yeliz/services/share_service.dart';
 
 class RewardHistory extends StatefulWidget {
   const RewardHistory({Key? key}) : super(key: key);
@@ -27,40 +29,46 @@ class _RewardHistoryState extends State<RewardHistory> {
   Widget build(BuildContext context) {
     initializeDateFormatting();
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: BlocBuilder<RewardBloc, RewardState>(
-          builder: (context, state) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: state is RewardInitial
-                    ? listRewardsWithDates(state.rewards)
-                        .map((e) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      formatDate(e.key!),
-                                      style: CustomTheme.headline6(context),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          FontAwesomeIcons.paperPlane,
-                                          color: Colors.white,
-                                        )),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                CheckoutListView(list: e.value),
-                              ],
-                            ))
-                        .toList()
-                    : []);
-          },
+    return BlocProvider(
+      create: (context) => ShareBloc(ShareService()),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: BlocBuilder<RewardBloc, RewardState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<ShareBloc>(context);
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: state is RewardInitial
+                      ? listRewardsWithDates(state.rewards)
+                          .map((e) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        formatDate(e.key!),
+                                        style: CustomTheme.headline6(context),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            bloc.add(Share(rewards: e.value));
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.paperPlane,
+                                            color: Colors.white,
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  CheckoutListView(list: e.value),
+                                ],
+                              ))
+                          .toList()
+                      : []);
+            },
+          ),
         ),
       ),
     );
