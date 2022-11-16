@@ -73,7 +73,7 @@
     },
     {
       "id": "3:4506808099796640891",
-      "lastPropertyId": "3:1220059754896081160",
+      "lastPropertyId": "4:5523026106360027747",
       "name": "RewardModel",
       "properties": [
         {
@@ -91,6 +91,11 @@
           "id": "3:1220059754896081160",
           "name": "amount",
           "type": 6
+        },
+        {
+          "id": "4:5523026106360027747",
+          "name": "date",
+          "type": 10
         }
       ],
       "relations": []

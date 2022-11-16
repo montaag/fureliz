@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:yeliz/dataProvider/database_interface.dart';
 import 'package:yeliz/models/balance.dart';
@@ -61,9 +62,11 @@ class Database extends DatabaseProvider {
 
   @override
   void savePurchasedRewards(List<RewardModel> rewards) {
-    print(rewards);
+    DateTime now = DateTime.now();
+    for (var element in rewards) {
+      element.date = DateTime(now.year, now.month, now.day);
+    }
     store.box<RewardModel>().putMany(rewards);
-    print(store.box<RewardModel>().getAll().length);
   }
 
   @override
@@ -73,5 +76,18 @@ class Database extends DatabaseProvider {
     store.box<Goal>().put(goal);
 
     print(store.box<Goal>().get(goal.id)!.isAchieved);
+  }
+
+  @override
+  List<RewardModel> listRewards() {
+    return store.box<RewardModel>().getAll();
+  }
+
+  @override
+  Map<DateTime?, List<RewardModel>> listRewardsWithDates() {
+    final groups = groupBy(listRewards(), (RewardModel e) {
+      return e.date;
+    });
+    return groups;
   }
 }

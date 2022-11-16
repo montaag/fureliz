@@ -14,4 +14,6 @@ abstract class DatabaseProvider {
   void deleteGoal(int id);
   void savePurchasedRewards(List<RewardModel> rewards);
   void achieveGoal(Goal goal);
+  List<RewardModel> listRewards();
+  Map<DateTime?, List<RewardModel>> listRewardsWithDates();
 }

@@ -24,13 +24,16 @@ class RewardModel extends Equatable {
   int id;
   final String title;
   final int amount;
+  DateTime? date;
+
   RewardModel({
     this.id = 0,
     required this.title,
     required this.amount,
+    this.date,
   });
 
   @override
   // TODO: implement props
-  List<Object?> get props => [title, amount, id];
+  List<Object?> get props => [title, amount, id, date];
 }

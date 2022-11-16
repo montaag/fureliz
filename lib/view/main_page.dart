@@ -7,6 +7,7 @@ import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/view/dashboard.dart';
+import 'package:yeliz/view/reward_history.dart';
 import 'package:yeliz/view/shop.dart';
 import 'package:yeliz/widgets/floating_nav_bar/floating_navbar.dart';
 import 'package:yeliz/widgets/floating_nav_bar/navbar_item.dart';
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     const Dashboard(),
     const Scaffold(body: Center(child: Text("Message"))),
     const Shop(),
-    const Scaffold(body: Center(child: Text("Alert"))),
+    const RewardHistory(),
   ];
 
   String formatDate(DateTime date) => new DateFormat("d MMMM EEEE", "tr").format(date);
@@ -43,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.backgroundColor,
-        title: Text(formatDate(now)),
+        title: Text(selectedIndex != 3 ? formatDate(now) : ""),
         centerTitle: false,
       ),
       body: pages[selectedIndex],

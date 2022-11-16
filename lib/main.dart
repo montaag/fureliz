@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/bloc/goal_bloc.dart';
+import 'package:yeliz/blocs/reward/bloc/reward_bloc.dart';
 import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 import 'package:yeliz/blocs/simple_bloc_observer.dart';
 import 'package:yeliz/config/settingsProvider.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BalanceBloc>(
           create: (_) => BalanceBloc(settings, data),
+        ),
+        BlocProvider<RewardBloc>(
+          create: (_) => RewardBloc(data),
         ),
       ],
       child: ScreenUtilInit(

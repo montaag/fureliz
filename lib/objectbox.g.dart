@@ -92,7 +92,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(3, 4506808099796640891),
       name: 'RewardModel',
-      lastPropertyId: const IdUid(3, 1220059754896081160),
+      lastPropertyId: const IdUid(4, 5523026106360027747),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -109,6 +109,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(3, 1220059754896081160),
             name: 'amount',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5523026106360027747),
+            name: 'date',
+            type: 10,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -230,23 +235,28 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (RewardModel object, fb.Builder fbb) {
           final titleOffset = fbb.writeString(object.title);
-          fbb.startTable(4);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addInt64(2, object.amount);
+          fbb.addInt64(3, object.date?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
-
+          final dateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
           final object = RewardModel(
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               title: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
               amount:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+              date: dateValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(dateValue));
 
           return object;
         })
@@ -308,4 +318,8 @@ class RewardModel_ {
   /// see [RewardModel.amount]
   static final amount =
       QueryIntegerProperty<RewardModel>(_entities[2].properties[2]);
+
+  /// see [RewardModel.date]
+  static final date =
+      QueryIntegerProperty<RewardModel>(_entities[2].properties[3]);
 }
