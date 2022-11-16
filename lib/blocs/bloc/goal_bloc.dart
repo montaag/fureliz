@@ -18,6 +18,7 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
           dailyGoals: databaseProvider.listDailyGoals(),
         )) {
     on<CreateGoal>((event, emit) {
+      print(databaseProvider.listGoals().length);
       databaseProvider.createGoal(
           day: event.day, studyType: event.studyType, amount: event.amount, subjectID: event.subjectID, lecture: event.lecture.toString().split(".").last);
       emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));

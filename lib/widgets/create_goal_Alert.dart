@@ -7,7 +7,6 @@ import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
 import 'package:yeliz/dataProvider/subject_provider.dart';
 import 'package:yeliz/models/classes.dart';
-import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
 import 'package:yeliz/widgets/custom_buttom_sheet.dart';
 import 'package:yeliz/widgets/custom_button.dart';

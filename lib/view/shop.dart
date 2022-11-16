@@ -29,6 +29,7 @@ class _ShopState extends State<Shop> {
   double araToplam = 0;
   List<Reward> shopItems = RewardProvider.getRewards();
   List<RewardModel> selectedItems = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +45,23 @@ class _ShopState extends State<Shop> {
       listener: (context, state) {
         if (state is PurchaseFailed) {
           showCustomSnackBar(context, state.error.message);
+        } else if (state is BalanceInitial) {
+          showCustomDialog(
+              context,
+              true,
+              CustomAlert(
+                description: "Ödül toplama başarılı",
+                type: CustomAlertType.success,
+                onPressed: () {
+                  basketBloc.add(ResetBasket());
+                  Navigator.pop(context);
+                  for (var element in shopItems) {
+                    setState(() {
+                      element.isSelected = false;
+                    });
+                  }
+                },
+              ));
         }
       },
       child: Column(
@@ -133,23 +151,8 @@ class _ShopState extends State<Shop> {
                           showCustomSnackBar(context, "Ara toplam 0");
                         } else {
                           balanceBloc.add(SpendBalance(selectedItems));
-                          showCustomDialog(
-                              context,
-                              true,
-                              CustomAlert(
-                                description: "Ödül toplama başarılı",
-                                type: CustomAlertType.success,
-                                onPressed: () {
-                                  basketBloc.add(ResetBasket());
-                                  Navigator.pop(context);
-                                  for (var element in shopItems) {
-                                    setState(() {
-                                      element.isSelected = false;
-                                    });
-                                  }
-                                },
-                              ));
                         }
+                        selectedItems = [];
                       }),
                 ),
               ],

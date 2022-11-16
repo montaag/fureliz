@@ -28,12 +28,12 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     on<SpendBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
       double spendAmount = rewardToAmount(event.rewards);
-
+      print("OLD BALANCE : " + oldBalance.toString());
+      print("SPEND AMOUNT: " + spendAmount.toString());
       if (spendAmount > oldBalance) {
-        emit(PurchaseFailed(CustomExcepiton.now(message: "Bakiyen yetersiz"), oldBalance));
+        emit(PurchaseFailed(CustomExcepiton.now(message: "Bakiyen yetersiz"), settingsProvider.getBalance()));
       } else {
         await settingsProvider.setBalance(oldBalance - spendAmount);
-
         databaseProvider.savePurchasedRewards(event.rewards);
         emit(BalanceInitial(balance: settingsProvider.getBalance()));
       }
