@@ -7,6 +7,7 @@ import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/reward/bloc/reward_bloc.dart';
 import 'package:yeliz/blocs/shop/bloc/basket_bloc.dart';
 import 'package:yeliz/config/palette.dart';
+import 'package:yeliz/config/theme.dart';
 import 'package:yeliz/view/dashboard.dart';
 import 'package:yeliz/view/reward_history.dart';
 import 'package:yeliz/view/shop.dart';
@@ -47,7 +48,10 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.backgroundColor,
-        title: Text(selectedIndex != 3 ? formatDate(now) : ""),
+        title: Text(
+          selectedIndex != 3 ? formatDate(now) : "",
+          style: TextStyle(color: Palette.darkGrey),
+        ),
         centerTitle: false,
       ),
       body: pages[selectedIndex],

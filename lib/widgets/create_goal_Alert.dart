@@ -32,11 +32,13 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
   Widget build(BuildContext context) {
     return BlocBuilder<GoalBloc, GoalState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 20),
               AnimatedToggleSwitch<ExamType>.size(
                   innerColor: Colors.white,
                   current: selectedExamType,

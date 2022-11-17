@@ -57,7 +57,7 @@ class _RewardHistoryState extends State<RewardHistory> {
                                           },
                                           icon: Icon(
                                             FontAwesomeIcons.paperPlane,
-                                            color: Colors.white,
+                                            color: Palette.darkGrey,
                                           )),
                                     ],
                                   ),
@@ -88,19 +88,28 @@ class _RewardHistoryState extends State<RewardHistory> {
 
 class CheckoutListView extends StatelessWidget {
   final List<RewardModel> list;
+
   const CheckoutListView({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: list.map((e) => CheckoutItem(rewardModel: e)).toList());
+    return Column(
+        children: list
+            .map((e) => CheckoutItem(
+                  rewardModel: e,
+                  color: Palette.getColors(list.indexOf(e)),
+                ))
+            .toList());
   }
 }
 
 class CheckoutItem extends StatelessWidget {
   final RewardModel rewardModel;
+  final Color color;
   const CheckoutItem({
     Key? key,
     required this.rewardModel,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -109,7 +118,7 @@ class CheckoutItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
           decoration: BoxDecoration(
-            color: Palette.lightGrey.withOpacity(0.5),
+            color: color.withOpacity(0.4),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(

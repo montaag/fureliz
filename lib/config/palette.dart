@@ -25,9 +25,9 @@ mixin Palette {
   static Color turquoise = const Color(0xFF92f6e6);
   static Color blue = const Color(0xFF91dbf7);
   static Color purple = const Color(0xFFb570f4);
-  static Color pinkColor = const Color(0xFFFF5858);
+  static Color pinkColor = const Color(0xFFFC4C61);
 
-  static Color orangeColor = const Color(0xFFFF9E80);
+  static Color orangeColor = const Color(0xFFFF932C);
   static Color secondaryColor = Colors.white.withOpacity(0.65);
 
   static const MaterialColor dangerColor = MaterialColor(
@@ -98,19 +98,28 @@ mixin Palette {
   );
   static const int _grayValue = 0xFFAEBECD;
 
-  static Color primaryTextColor = Colors.white;
+  static Color primaryTextColor = darkGrey;
   static Color secondaryTextColor = primaryColor;
-  static Color bodyTextColor = Colors.white.withOpacity(0.65);
+  static Color bodyTextColor = Colors.black;
   static Color hintTextColor = grayColor.shade600;
-  static const Color backgroundColor = Color(0xFF1A1A1A);
+  static const Color backgroundColor = Color(0xFFFAFAFA);
   static const Color backgroundColorDARK = Color(0xFF373737);
   static Color bottomNavBarColor = const Color(0xFFFAFAFA);
   static Color lightGrey = const Color(0xFFB8BDBF);
   static Color darkGrey = const Color(0xFF353535);
-  static const LinearGradient linearGradient = LinearGradient(
+  static LinearGradient linearGradient = LinearGradient(
     colors: [
-      primaryColor,
-      primaryColor,
+      pinkColor,
+      orangeColor,
     ],
   );
+
+  static List<Color> colors = [Palette.purple, Palette.blue, Palette.greenColor, Palette.orangeColor, Palette.pinkColor];
+  static Color getColors(int index) {
+    return colors[index % colors.length];
+  }
+
+  static Color getReverseColor(int index) {
+    return colors.reversed.toList()[index % colors.length];
+  }
 }

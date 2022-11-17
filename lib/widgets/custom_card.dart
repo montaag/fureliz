@@ -7,8 +7,9 @@ class CustomCard extends StatelessWidget {
   final String? subtitle;
   final Widget? extra;
   final IconButton? iconButton;
+  final Color color;
 
-  const CustomCard({Key? key, required this.title, this.subtitle, this.iconButton, this.extra}) : super(key: key);
+  const CustomCard({Key? key, required this.title, this.subtitle, this.iconButton, this.extra, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CustomCard extends StatelessWidget {
       height: 170,
       width: 250,
       decoration: BoxDecoration(
-        color: Palette.primaryColor.withOpacity(0.08),
+        color: color.withOpacity(0.4),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

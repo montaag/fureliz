@@ -10,6 +10,8 @@ import 'package:yeliz/models/classes.dart';
 import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
 import 'package:yeliz/widgets/create_goal_Alert.dart';
+import 'package:yeliz/widgets/custom_alert_dialog.dart';
+import 'package:yeliz/widgets/custom_bottom_sheet.dart';
 import 'package:yeliz/widgets/custom_button.dart';
 import 'package:yeliz/widgets/custom_card.dart';
 import 'package:yeliz/widgets/custom_checkboxListTile.dart';
@@ -61,6 +63,7 @@ class Dashboard extends StatelessWidget {
                         (e) => CustomCard(
                           title: "Matematik",
                           subtitle: "10 konu",
+                          color: Palette.getColors(dersler.indexOf(e)),
                         ),
                       )
                       .toList(),
@@ -86,6 +89,7 @@ class Dashboard extends StatelessWidget {
                         (e) => CustomCard(
                           title: "Matematik",
                           subtitle: "10 konu",
+                          color: Palette.getReverseColor(dersler.indexOf(e)),
                         ),
                       )
                       .toList(),
@@ -100,15 +104,8 @@ class Dashboard extends StatelessWidget {
                     style: CustomTheme.subtitle(context),
                   ),
                   IconButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: ((context) {
-                              return AlertDialog(
-                                title: Text("Günlük Hedefim"),
-                                content: AlertDialogContetns(),
-                              );
-                            }));
+                      onPressed: () async {
+                        await showCustomModalSheet(AlertDialogContetns(), context);
                       },
                       icon: Icon(Icons.add_circle_outline)),
                 ],
@@ -130,15 +127,8 @@ class Dashboard extends StatelessWidget {
                                 child: CustomButton(
                                     text: "Hadi hedef belirle",
                                     customButtonType: CustomButtonType.primary,
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: ((context) {
-                                            return AlertDialog(
-                                              title: Text("Günlük Hedefim"),
-                                              content: AlertDialogContetns(),
-                                            );
-                                          }));
+                                    onPressed: () async {
+                                      await showCustomModalSheet(AlertDialogContetns(), context);
                                     }),
                               ),
                             ],
