@@ -59,20 +59,20 @@ class _ShopItemState extends State<ShopItem> {
                 Center(
                     child: Icon(
                   widget.reward.icon,
-                  color: Palette.orangeColor,
+                  color: Palette.pinkColor,
                 )),
-                SizedBox(height: 4),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      widget.reward.reward.title,
-                      style: CustomTheme.body(context, color: Colors.black),
-                      textAlign: TextAlign.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    child: Center(
+                      child: Text(
+                        widget.reward.reward.title,
+                        style: CustomTheme.body(context, color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(height: 2),
               ],
             ),
           ),
