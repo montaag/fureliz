@@ -6,6 +6,7 @@ import 'package:yeliz/blocs/bloc/goal_bloc.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
 import 'package:yeliz/config/theme.dart';
+import 'package:yeliz/dataProvider/subject_provider.dart';
 import 'package:yeliz/models/classes.dart';
 import 'package:yeliz/models/goal.dart';
 import 'package:yeliz/models/subject.dart';
@@ -21,8 +22,6 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List dersler = [Lecture.MATEMATIK, Lecture.TURKCE]; //TODO: DELETE THIS
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -58,12 +57,13 @@ class Dashboard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   mainAxisSpacing: 10,
                   childAspectRatio: 0.65,
-                  children: dersler
+                  children: SubjectProvider()
+                      .getTYTLectures()
                       .map(
                         (e) => CustomCard(
-                          title: "Matematik",
-                          subtitle: "10 konu",
-                          color: Palette.getColors(dersler.indexOf(e)),
+                          title: e.name,
+                          subtitle: SubjectProvider.getSubjectCount(e, ExamType.TYT).toString() + " Konu",
+                          color: Palette.getColors(SubjectProvider().getTYTLectures().indexOf(e)),
                         ),
                       )
                       .toList(),
@@ -84,12 +84,13 @@ class Dashboard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   mainAxisSpacing: 10,
                   childAspectRatio: 0.65,
-                  children: dersler
+                  children: SubjectProvider()
+                      .getAYTLectures()
                       .map(
                         (e) => CustomCard(
-                          title: "Matematik",
-                          subtitle: "10 konu",
-                          color: Palette.getReverseColor(dersler.indexOf(e)),
+                          title: e.name,
+                          subtitle: SubjectProvider.getSubjectCount(e, ExamType.AYT).toString() + " Konu",
+                          color: Palette.getReverseColor(SubjectProvider().getAYTLectures().indexOf(e)),
                         ),
                       )
                       .toList(),

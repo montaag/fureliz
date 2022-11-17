@@ -51,7 +51,7 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
                     ),
                     subtitle: Text(
                       widget.goal.amount.toString() + (widget.goal.studyType == Constants.KONU_ANLATIMI ? " sayfa" : " soru"),
-                      style: CustomTheme.subtitle(context, color: Palette.grayColor),
+                      style: CustomTheme.subtitle(context, color: Palette.grayColor.shade600),
                     ),
                   ),
                 );

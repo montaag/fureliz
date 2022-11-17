@@ -43,7 +43,7 @@ class CustomCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: Text(
                       subtitle ?? '',
-                      style: CustomTheme.subtitle(context),
+                      style: CustomTheme.subtitle(context, color: Palette.grayColor.shade700),
                     ),
                   ),
                 ],
