@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -40,32 +41,58 @@ class _RewardHistoryState extends State<RewardHistory> {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: state is RewardInitial
-                      ? listRewardsWithDates(state.rewards)
-                          .map((e) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        formatDate(e.key!),
-                                        style: CustomTheme.headline6(context),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            bloc.add(Share(rewards: e.value));
-                                          },
-                                          icon: Icon(
-                                            FontAwesomeIcons.paperPlane,
-                                            color: Palette.darkGrey,
-                                          )),
-                                    ],
+                      ? (listRewardsWithDates(state.rewards).isEmpty
+                          ? [
+                              SizedBox(
+                                height: 100.h,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Center(
+                                  child: Text(
+                                    "Henüz bir alışveriş yapmadın!",
+                                    style: CustomTheme.headline5(context),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(height: 5),
-                                  CheckoutListView(list: e.value),
-                                ],
-                              ))
-                          .toList()
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                                child: Center(
+                                  child: Text(
+                                    "Hedeflerini tuttur ödüllerini kazan <3",
+                                    style: CustomTheme.headline6(context, color: Palette.grayColor),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ]
+                          : listRewardsWithDates(state.rewards)
+                              .map((e) => Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            formatDate(e.key!),
+                                            style: CustomTheme.headline6(context),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                bloc.add(Share(rewards: e.value));
+                                              },
+                                              icon: Icon(
+                                                FontAwesomeIcons.paperPlane,
+                                                color: Palette.darkGrey,
+                                              )),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      CheckoutListView(list: e.value),
+                                    ],
+                                  ))
+                              .toList())
                       : []);
             },
           ),
