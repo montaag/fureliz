@@ -24,7 +24,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 6017257863110588144),
       name: 'Goal',
-      lastPropertyId: const IdUid(7, 1405500867075772122),
+      lastPropertyId: const IdUid(8, 3903941971178794006),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -61,6 +61,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(7, 1405500867075772122),
             name: 'lecture',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 3903941971178794006),
+            name: 'isTYT',
+            type: 1,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -164,7 +169,7 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (Goal object, fb.Builder fbb) {
           final studyTypeOffset = fbb.writeString(object.studyType);
           final lectureOffset = fbb.writeString(object.lecture);
-          fbb.startTable(8);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.day.millisecondsSinceEpoch);
           fbb.addInt64(2, object.amount);
@@ -172,6 +177,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(4, studyTypeOffset);
           fbb.addInt64(5, object.subjectID);
           fbb.addOffset(6, lectureOffset);
+          fbb.addBool(7, object.isTYT);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -192,7 +198,9 @@ ModelDefinition getObjectBoxModel() {
               isAchieved: const fb.BoolReader()
                   .vTableGet(buffer, rootOffset, 10, false),
               lecture: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 16, ''));
+                  .vTableGet(buffer, rootOffset, 16, ''),
+              isTYT: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 18, false));
 
           return object;
         }),
@@ -290,6 +298,9 @@ class Goal_ {
 
   /// see [Goal.lecture]
   static final lecture = QueryStringProperty<Goal>(_entities[0].properties[6]);
+
+  /// see [Goal.isTYT]
+  static final isTYT = QueryBooleanProperty<Goal>(_entities[0].properties[7]);
 }
 
 /// [Balance] entity fields to define ObjectBox queries.

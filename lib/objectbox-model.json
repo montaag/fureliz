@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6017257863110588144",
-      "lastPropertyId": "7:1405500867075772122",
+      "lastPropertyId": "8:3903941971178794006",
       "name": "Goal",
       "properties": [
         {
@@ -43,6 +43,11 @@
           "id": "7:1405500867075772122",
           "name": "lecture",
           "type": 9
+        },
+        {
+          "id": "8:3903941971178794006",
+          "name": "isTYT",
+          "type": 1
         }
       ],
       "relations": []

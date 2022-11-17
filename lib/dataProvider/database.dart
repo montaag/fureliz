@@ -29,15 +29,9 @@ class Database extends DatabaseProvider {
     int? amount,
     int? subjectID,
     required String lecture,
+    required bool isTYT,
   }) {
-    Goal goal = Goal(
-      day: day,
-      studyType: studyType,
-      isAchieved: false,
-      amount: amount,
-      subjectID: subjectID,
-      lecture: lecture,
-    );
+    Goal goal = Goal(day: day, studyType: studyType, isAchieved: false, amount: amount, subjectID: subjectID, lecture: lecture, isTYT: isTYT);
     store.box<Goal>().put(goal);
     return goal;
   }

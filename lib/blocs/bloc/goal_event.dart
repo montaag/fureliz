@@ -10,12 +10,14 @@ class CreateGoal extends GoalEvent {
   final int? amount;
   final int? subjectID;
   Lecture lecture;
+  ExamType examType;
   CreateGoal({
     required this.day,
     required this.studyType,
     required this.amount,
     this.subjectID,
     required this.lecture,
+    required this.examType,
   });
 }
 

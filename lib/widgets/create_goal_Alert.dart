@@ -1,6 +1,7 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yeliz/blocs/bloc/goal_bloc.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
@@ -26,7 +27,7 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
   ExamType selectedExamType = ExamType.TYT;
   String selectedStudyType = Constants.KONU_ANLATIMI;
   Subject? selectedSubject;
-  List dersler = Lecture.values;
+
   int? amount;
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
                   widget: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: dersler
+                    children: LectureProvider.getLectures(selectedExamType)
                         .map((e) => ListTile(
                             title: Center(
                                 child: Text(
@@ -111,18 +112,20 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
 
                               setState(() {
                                 selectedLecture = e;
+                                selectedSubject = null;
                               });
                             }))
                         .toList(),
                   ),
                   text: selectedLecture == null ? "Ders" : selectedLecture!.name.split(".").last),
               CustomBottomSheet(
+                  height: 400.h,
                   widget: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: selectedLecture == null
                         ? []
-                        : SubjectProvider.getSubjectsbyLecture(selectedLecture!)
+                        : SubjectProvider.getSubjectsbyLecture(selectedLecture!, selectedExamType)
                             .map((e) => ListTile(
                                 title: Center(
                                     child: Text(
@@ -163,7 +166,8 @@ class _AlertDialogContetnsState extends State<AlertDialogContetns> {
                           studyType: selectedStudyType,
                           amount: amount,
                           lecture: selectedLecture!,
-                          subjectID: selectedSubject == null ? null : selectedSubject!.id));
+                          subjectID: selectedSubject?.id ?? null,
+                          examType: selectedExamType));
 
                       Navigator.pop(context);
                     }

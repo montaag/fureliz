@@ -179,7 +179,7 @@ class SubjectProvider extends AbstractSubjectProvider {
   };
 
   static Set HISTORY_SUBJECTS = {
-    Subject(id: 6, lecture: Lecture.SOSYAL, examType: ExamType.TYT, name: "Sosyal", isStudied: false),
+    Subject(id: 154, lecture: Lecture.SOSYAL, examType: ExamType.TYT, name: "Sosyal", isStudied: false),
   };
 
   static Set getAllSubjects() {
@@ -196,23 +196,29 @@ class SubjectProvider extends AbstractSubjectProvider {
     return all;
   }
 
-  static Set getSubjectsbyLecture(Lecture lecture) {
+  static Set getSubjectsbyLecture(Lecture lecture, ExamType examType) {
+    Set list = {};
     switch (lecture) {
       case Lecture.MATEMATIK:
-        return MATH_SUBJECTS;
+        list = MATH_SUBJECTS;
+        break;
       case Lecture.TURKCE:
-        return TURKISH_SUBJECTS;
+        list = TURKISH_SUBJECTS;
+        break;
       case Lecture.BIYOLOJI:
-        return BIO_SUBJECTS;
+        list = BIO_SUBJECTS;
+        break;
       case Lecture.KIMYA:
-        return CHEM_SUBJECTS;
+        list = CHEM_SUBJECTS;
+        break;
       case Lecture.FIZIK:
-        return PHYS_SUBJECTS;
+        list = PHYS_SUBJECTS;
+        break;
       case Lecture.SOSYAL:
-        return HISTORY_SUBJECTS;
-      default:
-        return {};
+        list = HISTORY_SUBJECTS;
+        break;
     }
+    return list.where((element) => element.examType == examType).toSet();
   }
 
   Subject? getSubject(int? id) {

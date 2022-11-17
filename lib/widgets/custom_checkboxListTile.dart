@@ -28,9 +28,7 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
       height: 60.h,
       decoration: BoxDecoration(
         // color: Palette.primaryColor.withOpacity(0.08),
-        color: SubjectProvider().getSubject(widget.goal.subjectID) == null
-            ? Palette.primaryColor.withOpacity(0.3)
-            : (SubjectProvider().getSubject(widget.goal.subjectID)!.examType == ExamType.TYT ? Palette.blue.withOpacity(0.3) : Palette.purple.withOpacity(0.3)),
+        color: widget.goal.isTYT ? Palette.blue.withOpacity(0.3) : Palette.purple.withOpacity(0.3),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

@@ -11,6 +11,7 @@ class Goal extends Equatable {
   final DateTime day;
   final String studyType; //KONU_ANLATIMI OR SORU_COZUMU
   final int? amount;
+  final bool isTYT;
   final int? subjectID;
   final String lecture;
 
@@ -24,6 +25,7 @@ class Goal extends Equatable {
     this.subjectID,
     required this.isAchieved,
     required this.lecture,
+    required this.isTYT,
   });
 
   @override

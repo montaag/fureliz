@@ -1,8 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:yeliz/models/reward.dart';
 
 class ShareService {
+  String formatDate(DateTime date) => new DateFormat("d MMMM EEEE", "tr").format(date);
+
   Future<void> onShare(List<RewardModel> rewards) async {
     var status = await Permission.storage.status;
     if (status.isDenied) {
@@ -17,7 +20,7 @@ class ShareService {
       }
     }
 
-    String str = "İşte kazandığım ödüller!\n";
+    String str = "${formatDate(rewards[0].date!)}\nİşte kazandığım ödüller!\n";
 
     for (var element in counts.entries.toList()) {
       str = str + "• " + element.value.toString() + " adet " + element.key.toString() + "\n";
