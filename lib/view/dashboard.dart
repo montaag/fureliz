@@ -144,7 +144,9 @@ class Dashboard extends StatelessWidget {
                                       children: [
                                         SlidableAction(
                                           flex: 2,
-                                          onPressed: (context) {},
+                                          onPressed: (context) {
+                                            BlocProvider.of<GoalBloc>(context).add(DeleteGoal(goal: e));
+                                          },
                                           backgroundColor: Palette.dangerColor,
                                           foregroundColor: Colors.white,
                                           icon: Icons.delete,

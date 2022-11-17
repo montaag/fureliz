@@ -38,20 +38,20 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
         emit(BalanceInitial(balance: settingsProvider.getBalance()));
       }
     });
-    on<SetBalance>((event, emit) async {
-      await settingsProvider.setBalance(event.amount);
+    on<GetBalance>((event, emit) async {
       emit(BalanceInitial(balance: settingsProvider.getBalance()));
     });
   }
 
   double listGoalsToStar() {
     double amount = 0.0;
-    List<Goal> goals = databaseProvider.listDailyGoals();
+    List<Goal> goals = databaseProvider.listYesterdayGoals();
     for (var element in goals) {
       if (element.isAchieved) {
         amount = amount + goalToStar(element);
       }
     }
+
     return amount;
   }
 

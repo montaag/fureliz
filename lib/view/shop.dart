@@ -71,11 +71,12 @@ class _ShopState extends State<Shop> {
           SizedBox(height: 20),
           BlocBuilder<BasketBloc, BasketState>(
             builder: (context, state) {
+              print(shopItems);
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GridView.count(
-                    shrinkWrap: false,
+                    shrinkWrap: true,
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
@@ -102,7 +103,6 @@ class _ShopState extends State<Shop> {
               );
             },
           ),
-          Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(

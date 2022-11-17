@@ -42,8 +42,8 @@ class Database extends DatabaseProvider {
   }
 
   @override
-  void deleteGoal(int id) {
-    store.box<Goal>().remove(id);
+  void deleteGoal(Goal goal) {
+    store.box<Goal>().remove(goal.id);
   }
 
   @override
@@ -64,12 +64,10 @@ class Database extends DatabaseProvider {
   }
 
   @override
-  void achieveGoal(Goal goal) {
-    goal.isAchieved = !goal.isAchieved;
-    print(goal.isAchieved);
-    store.box<Goal>().put(goal);
+  void achieveGoal(Goal goal, bool value) {
+    goal.isAchieved = value;
 
-    print(store.box<Goal>().get(goal.id)!.isAchieved);
+    store.box<Goal>().put(goal);
   }
 
   @override
@@ -83,5 +81,13 @@ class Database extends DatabaseProvider {
       return e.date;
     });
     return groups;
+  }
+
+  @override
+  List<Goal> listYesterdayGoals() {
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+    DateTime today = DateTime(yesterday.year, yesterday.month, yesterday.day);
+    List<Goal> goals = store.box<Goal>().query(Goal_.day.equals(today.millisecondsSinceEpoch)).build().find();
+    return goals;
   }
 }

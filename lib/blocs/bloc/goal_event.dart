@@ -23,12 +23,19 @@ class CreateGoal extends GoalEvent {
 
 class ResetGoal extends GoalEvent {}
 
-class DeleteGoal extends GoalEvent {}
+class DeleteGoal extends GoalEvent {
+  final Goal goal;
+  DeleteGoal({
+    required this.goal,
+  });
+}
 
 class AchieveGoal extends GoalEvent {
   final Goal goal;
+  final bool value;
   AchieveGoal({
     required this.goal,
+    required this.value,
   });
 }
 

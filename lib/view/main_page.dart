@@ -38,7 +38,8 @@ class _MainScreenState extends State<MainScreen> {
     basketBloc.add(ResetBasket());
 
     final balanceBloc = BlocProvider.of<BalanceBloc>(context);
-    balanceBloc.add(SetBalance(50));
+    balanceBloc.add(GetBalance());
+    balanceBloc.add(EarnBalance());
 
     final rewardBloc = BlocProvider.of<RewardBloc>(context);
     rewardBloc.add(ListRewards());

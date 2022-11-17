@@ -29,11 +29,12 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
           isTYT: isTyt);
       emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));
     });
+    on<DeleteGoal>((event, emit) {
+      databaseProvider.deleteGoal(event.goal);
+      emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));
+    });
     on<AchieveGoal>((event, emit) {
-      //hem databaseden düzelt hem de tık tık
-
-      databaseProvider.achieveGoal(event.goal);
-
+      databaseProvider.achieveGoal(event.goal, event.value);
       emit(GoalInitial(dailyGoals: databaseProvider.listDailyGoals()));
     });
   }

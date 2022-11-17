@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yeliz/blocs/balance/bloc/balance_bloc.dart';
 import 'package:yeliz/blocs/bloc/goal_bloc.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/palette.dart';
@@ -24,6 +25,7 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
   @override
   Widget build(BuildContext context) {
     final goalBloc = BlocProvider.of<GoalBloc>(context);
+    final balanceBloc = BlocProvider.of<BalanceBloc>(context);
     return Container(
       height: 60.h,
       decoration: BoxDecoration(
@@ -73,7 +75,7 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
                       setState(() {
                         widget.goal.isAchieved = !value!;
                       });
-                      goalBloc.add(AchieveGoal(goal: widget.goal));
+                      goalBloc.add(AchieveGoal(goal: widget.goal, value: value!));
                     },
                   ),
                 ),

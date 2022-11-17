@@ -13,9 +13,11 @@ abstract class DatabaseProvider {
 
   List<Goal> listGoals();
   List<Goal> listDailyGoals();
-  void deleteGoal(int id);
+  List<Goal> listYesterdayGoals();
+
+  void deleteGoal(Goal goal);
   void savePurchasedRewards(List<RewardModel> rewards);
-  void achieveGoal(Goal goal);
+  void achieveGoal(Goal goal, bool value);
   List<RewardModel> listRewards();
   Map<DateTime?, List<RewardModel>> listRewardsWithDates();
 }
