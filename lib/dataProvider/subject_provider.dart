@@ -93,8 +93,8 @@ class SubjectProvider extends AbstractSubjectProvider {
     Subject(id: 74, lecture: Lecture.FIZIK, examType: ExamType.TYT, name: "Elektrik ve Manyetizma", isStudied: false),
     Subject(id: 75, lecture: Lecture.FIZIK, examType: ExamType.TYT, name: "Dalgalar", isStudied: false),
     Subject(id: 76, lecture: Lecture.FIZIK, examType: ExamType.TYT, name: "Optik", isStudied: false),
-    Subject(id: 76, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Vektörler", isStudied: false),
-    Subject(id: 77, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Kuvvet, Tork ve Denge", isStudied: false),
+    Subject(id: 77, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Vektörler", isStudied: false),
+    Subject(id: 155, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Kuvvet, Tork ve Denge", isStudied: false),
     Subject(id: 78, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Kütle Merkezi", isStudied: false),
     Subject(id: 79, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Basit Makineler", isStudied: false),
     Subject(id: 80, lecture: Lecture.FIZIK, examType: ExamType.AYT, name: "Hareket", isStudied: false),
@@ -259,8 +259,8 @@ class SubjectProvider extends AbstractSubjectProvider {
         return MATH_SUBJECTS.where((element) => element.examType == examType).length;
       case Lecture.TURKCE:
         return TURKISH_SUBJECTS.where((element) => element.examType == examType).length;
-      case Lecture.BIYOLOJI:
-        return BIO_SUBJECTS.where((element) => element.examType == examType).length;
+      case Lecture.FIZIK:
+        return PHYS_SUBJECTS.where((element) => element.examType == examType).length;
       case Lecture.KIMYA:
         return CHEM_SUBJECTS.where((element) => element.examType == examType).length;
       case Lecture.BIYOLOJI:

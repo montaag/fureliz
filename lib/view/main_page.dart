@@ -1,3 +1,5 @@
+import 'package:cron/cron.dart' as cron;
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +34,20 @@ class _MainScreenState extends State<MainScreen> {
 
   String formatDate(DateTime date) => new DateFormat("d MMMM EEEE", "tr").format(date);
 
+  Future<void> earnBalance() async {
+    final cron = Cron();
+
+    try {
+      cron.schedule(Schedule.parse('00 00 * * *'), () {
+        BlocProvider.of<BalanceBloc>(context).add(EarnBalance());
+      });
+
+      await cron.close();
+    } on ScheduleParseException {
+      await cron.close();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final basketBloc = BlocProvider.of<BasketBloc>(context);
@@ -39,13 +55,12 @@ class _MainScreenState extends State<MainScreen> {
 
     final balanceBloc = BlocProvider.of<BalanceBloc>(context);
     balanceBloc.add(GetBalance());
-    balanceBloc.add(EarnBalance());
 
     final rewardBloc = BlocProvider.of<RewardBloc>(context);
     rewardBloc.add(ListRewards());
     initializeDateFormatting();
     DateTime now = DateTime.now();
-
+    earnBalance();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.backgroundColor,

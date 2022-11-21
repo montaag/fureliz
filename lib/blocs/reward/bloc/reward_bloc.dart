@@ -11,7 +11,10 @@ class RewardBloc extends Bloc<RewardEvent, RewardState> {
   RewardBloc(this.databaseProvider) : super(RewardInitial(databaseProvider.listRewards())) {
     on<ListRewards>((event, emit) {
       List<RewardModel> list = databaseProvider.listRewards();
-      list.sort((a, b) => b.date!.compareTo(a.date!));
+
+      if (list.isNotEmpty) {
+        list.sort((a, b) => b.date!.compareTo(a.date!));
+      }
 
       emit(RewardInitial(list));
     });
