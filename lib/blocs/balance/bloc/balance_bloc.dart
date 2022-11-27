@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yeliz/config/constants.dart';
 import 'package:yeliz/config/settingsProvider.dart';
@@ -20,10 +21,18 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     on<EarnBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
 
-      double earnedStar = listGoalsToStar();
+      double earnedStar = goalToStar(event.goal);
 
       await settingsProvider.setBalance(earnedStar + oldBalance);
       emit(BalanceInitial(balance: oldBalance + earnedStar));
+    });
+    on<DeleteBalance>((event, emit) async {
+      double oldBalance = settingsProvider.getBalance();
+
+      double tobeDeleted = goalToStar(event.goal);
+
+      await settingsProvider.setBalance(oldBalance - tobeDeleted);
+      emit(BalanceInitial(balance: oldBalance - tobeDeleted));
     });
     on<SpendBalance>((event, emit) async {
       double oldBalance = settingsProvider.getBalance();
@@ -56,9 +65,9 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   }
 
   double goalToStar(Goal goal) {
-    Subject subject = SubjectProvider().getSubject(goal.subjectID)!;
-    ExamType examType = subject.examType;
-    Lecture lecture = subject.lecture;
+    Subject? subject = SubjectProvider().getSubject(goal.subjectID);
+    ExamType examType = goal.isTYT ? ExamType.TYT : ExamType.AYT;
+    Lecture? lecture = EnumToString.fromString(Lecture.values, goal.lecture);
     double katSayi = 1;
 
     if (examType == ExamType.AYT) {

@@ -76,6 +76,11 @@ class _CustomCheckBoxListTileState extends State<CustomCheckBoxListTile> {
                         widget.goal.isAchieved = !value!;
                       });
                       goalBloc.add(AchieveGoal(goal: widget.goal, value: value!));
+                      if (value) {
+                        balanceBloc.add(EarnBalance(widget.goal));
+                      } else {
+                        balanceBloc.add(DeleteBalance(widget.goal));
+                      }
                     },
                   ),
                 ),

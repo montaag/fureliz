@@ -44,6 +44,7 @@ dependencies:
   collection: 
   share_plus:
   permission_handler: ^10.2.0
+  enum_to_string: ^2.0.1
 
 dev_dependencies:
   flutter_test:

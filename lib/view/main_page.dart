@@ -34,20 +34,6 @@ class _MainScreenState extends State<MainScreen> {
 
   String formatDate(DateTime date) => new DateFormat("d MMMM EEEE", "tr").format(date);
 
-  Future<void> earnBalance() async {
-    final cron = Cron();
-
-    try {
-      cron.schedule(Schedule.parse('00 00 * * *'), () {
-        BlocProvider.of<BalanceBloc>(context).add(EarnBalance());
-      });
-
-      await cron.close();
-    } on ScheduleParseException {
-      await cron.close();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final basketBloc = BlocProvider.of<BasketBloc>(context);
@@ -60,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
     rewardBloc.add(ListRewards());
     initializeDateFormatting();
     DateTime now = DateTime.now();
-    earnBalance();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.backgroundColor,

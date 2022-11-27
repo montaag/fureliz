@@ -7,7 +7,13 @@ abstract class BalanceEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class EarnBalance extends BalanceEvent {}
+class EarnBalance extends BalanceEvent {
+  final Goal goal;
+
+  EarnBalance(this.goal);
+  @override
+  List<Object> get props => [goal];
+}
 
 class SpendBalance extends BalanceEvent {
   final List<RewardModel> rewards;
@@ -23,4 +29,12 @@ class SetBalance extends BalanceEvent {
   final double amount;
 
   SetBalance(this.amount);
+}
+
+class DeleteBalance extends BalanceEvent {
+  final Goal goal;
+
+  DeleteBalance(this.goal);
+  @override
+  List<Object> get props => [goal];
 }
