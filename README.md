@@ -1,6 +1,7 @@
 # yeliz
 
-A new Flutter project.
+I made an application for my sister. I aim to boost her productivity during her exams. 
+
 
 ## Getting Started
 
